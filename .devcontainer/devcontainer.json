@@ -1,7 +1,7 @@
 {
   // "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
-  "name": "tangent-template",
-  "image": "recrash/base:latest",
+  "name": "tangent",
+  // "image": "recrash/base:latest",
   // "dockerFile": "Dockerfile",
   // "context": ".",
   // "build": {
@@ -13,13 +13,20 @@
   //     "POETRY_VERSION": "1.4.2"
   //   }
   // },
-  //"shutdownAction": "stopCompose",
+  // Update the 'dockerComposeFile' list if you have more compose files or use different names.
+  "dockerComposeFile": "docker-compose.yml",
+  // The 'service' property is the name of the service for the container that VS Code should
+  // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+  "service": "tangent",
+  "shutdownAction": "stopCompose",
   // "waitFor": "postCreateCommand",
-  "onCreateCommand": "git config --global --add safe.directory /workspaces/tangent",
-  "updateContentCommand": "poetry install && bun install",
-  "postCreateCommand": "bun run dev",
+  "updateContentCommand": "fish -c 'poetry install && bun install'",
+  "postCreateCommand": "bun run build",
+  "postAttachCommand": {
+    "server": "bun run dev"
+  },
   "workspaceFolder": "/workspaces/tangent",
-  "forwardPorts": [3000],
+  "forwardPorts": [3000], //[3000, 3001, 3002, 8080, 8001, 8002],
   "containerEnv": {
     "HOME": "/root",
     "XDG_CONFIG_HOME": "/root/.config",
@@ -28,7 +35,7 @@
     "LANGUAGE": "en_US:en",
     "LC_ALL": "en_US.UTF-8",
     "TZ": "Europe/Berlin",
-    "TERM": "/usr/bin/fish"
+    "TERM": "/bin/fish"
   },
   "remoteUser": "root",
   "remoteEnv": {
